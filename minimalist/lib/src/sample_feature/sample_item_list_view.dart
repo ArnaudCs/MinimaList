@@ -4,16 +4,15 @@ import '../settings/settings_view.dart';
 import 'sample_item.dart';
 
 /// Displays a list of SampleItems.
-class SampleItemListView extends StatelessWidget {
-  SampleItemListView({
-    super.key,
-    this.items = const [SampleItem(1), SampleItem(2), SampleItem(3)],
-  });
-
+class SampleItemListView extends StatefulWidget {
+  SampleItemListView({super.key});
   static const routeName = '/';
+  @override
+  State<SampleItemListView> createState() => _SampleItemListViewState();
+}
 
-  final List<SampleItem> items;
-  bool isDone = false;
+class _SampleItemListViewState extends State<SampleItemListView> {
+  List<SampleItem> items = [SampleItem(1), SampleItem(2), SampleItem(3)];
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +28,16 @@ class SampleItemListView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.grey[800],
-                fontWeight: FontWeight.w700
+                fontWeight: FontWeight.w900
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
             Text(
               'List',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 20,
                 color: Colors.grey[800],
-                fontWeight: FontWeight.w300
+                fontWeight: FontWeight.w500
               ),
             )
           ],
@@ -54,48 +53,71 @@ class SampleItemListView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          restorationId: 'sampleItemListView',
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            final item = items[index];
+        child:
+          items.isEmpty
+            ? const Center(
+                child: Text('No items'),
+              )
+            : ListView.builder(
+              restorationId: 'sampleItemListView',
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = items[index];
         
-            return Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey,
-                    width: 1,
+                return Dismissible(
+                  onDismissed: (direction) {
+                    setState(() {
+                      items.removeAt(index);
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${item.id} dismissed'))
+                    );
+                  },
+                  key: Key(item.id.toString()),  // Ensure unique keys for Dismissible
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[800],
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(item.id.toString()),
+                              const SizedBox(width: 8),
+                              const Text('Test'),
+                            ],
+                          ),
+                          Checkbox(
+                            value: item.isDone,
+                            onChanged: (value) {
+                              setState(() {
+                                item.isDone = value ?? false; 
+                              });
+                            },
+                            checkColor: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(item.id.toString()),
-                      const SizedBox(width: 8),
-                      Text('Test'),
-                    ],
-                  ),
-                  Checkbox(
-                    value: isDone, 
-                    onChanged: (value) {
-                      isDone = !isDone;
-                      print(isDone);
-                    },
-                    checkColor: Colors.white,
-                  )
-                ],
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print('Add new item');
+          setState(() {
+            items.add(SampleItem(items.length + 1));
+          });
         },
         child: const Icon(Icons.add),
       ),
