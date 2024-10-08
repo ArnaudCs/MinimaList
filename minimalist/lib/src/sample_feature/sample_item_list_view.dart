@@ -71,10 +71,10 @@ class _SampleItemListViewState extends State<SampleItemListView> {
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${item.id} dismissed'))
+                      SnackBar(content: Text('Task completed, good job 👍'))
                     );
                   },
-                  key: Key(item.id.toString()),  // Ensure unique keys for Dismissible
+                  key: Key(item.id.toString()), 
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
@@ -121,7 +121,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
         },
         child: const Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked
     );
   }
 }
