@@ -1,19 +1,20 @@
 class SampleItem {
   final int id;
   bool isDone;
+  final String taskName; 
 
-  SampleItem(this.id, {this.isDone = false});
+  SampleItem(this.id, {this.taskName = '', this.isDone = false});
 
-  /// Convert a SampleItem into a JSON object
   Map<String, dynamic> toJson() => {
     'id': id,
     'isDone': isDone,
+    'taskName': taskName, 
   };
 
-  /// Create a SampleItem from a JSON object
   factory SampleItem.fromJson(Map<String, dynamic> json) {
     return SampleItem(
       json['id'],
+      taskName: json['taskName'] ?? '', 
       isDone: json['isDone'],
     );
   }

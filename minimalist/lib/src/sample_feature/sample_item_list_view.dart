@@ -1,18 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:minimalist/services/task_service.dart';
+import 'package:minimalist/src/sample_feature/sample_item.dart';
+import 'package:minimalist/src/sample_feature/task_creation_modal.dart';
 
 import '../settings/settings_view.dart';
-import 'sample_item.dart';
 
-/// Displays a list of SampleItems.
 class SampleItemListView extends StatefulWidget {
   SampleItemListView({super.key});
   static const routeName = '/';
+
   @override
   State<SampleItemListView> createState() => _SampleItemListViewState();
 }
 
 class _SampleItemListViewState extends State<SampleItemListView> {
-  List<SampleItem> items = [SampleItem(1), SampleItem(2), SampleItem(3)];
+  List<SampleItem> items = [];
+  final TaskService _taskService = TaskService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTasks();
+  }
+
+  void _loadTasks() async {
+    List<SampleItem> loadedTasks = await _taskService.getTasks();
+    setState(() {
+      items = loadedTasks;
+    });
+  }
+
+  void _openTaskCreationModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return TaskCreationModal(onTaskAdded: _loadTasks);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +52,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
               'Minima',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.grey[800],
+                color: Colors.grey[200],
                 fontWeight: FontWeight.w900
               ),
             ),
@@ -36,7 +61,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
               'List',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.grey[800],
+                color: Colors.grey[200],
                 fontWeight: FontWeight.w500
               ),
             )
@@ -53,75 +78,72 @@ class _SampleItemListViewState extends State<SampleItemListView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child:
-          items.isEmpty
+        child: items.isEmpty
             ? const Center(
                 child: Text('No items'),
               )
             : ListView.builder(
-              restorationId: 'sampleItemListView',
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item = items[index];
-        
-                return Dismissible(
-                  onDismissed: (direction) {
-                    setState(() {
-                      items.removeAt(index);
-                    });
+                restorationId: 'sampleItemListView',
+                itemCount: items.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = items[index];
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Task completed, good job 👍'))
-                    );
-                  },
-                  key: Key(item.id.toString()), 
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Colors.black,
-                      ),
-                    ),
+                  return Dismissible(
+                    onDismissed: (direction) async {
+                      await _taskService.removeTask(item.id);
+                      setState(() {
+                        items.removeAt(index);
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Task completed, good job 👍'))
+                      );
+                    },
+                    key: Key(item.id.toString()),
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(item.id.toString()),
-                              const SizedBox(width: 8),
-                              const Text('Test'),
+                              Row(
+                                children: [
+                                  Icon(Icons.task, color: Colors.white,),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    item.taskName,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Roboto',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
-                          Checkbox(
-                            value: item.isDone,
-                            onChanged: (value) {
-                              setState(() {
-                                item.isDone = value ?? false; 
-                              });
-                            },
-                            checkColor: Colors.white,
-                          )
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('Add new item');
-          setState(() {
-            items.add(SampleItem(items.length + 1));
-          });
-        },
-        child: const Icon(Icons.add),
+        onPressed: _openTaskCreationModal, // Open the modal on button press
+        backgroundColor: Colors.white,
+        child: const Icon(Icons.add, color: Colors.black,),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
