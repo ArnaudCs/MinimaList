@@ -4,6 +4,7 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:minimalist/services/task_service.dart';
+import 'package:minimalist/src/Utils/square_link_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'settings_controller.dart';
@@ -50,7 +51,7 @@ class _SettingsViewState extends State<SettingsView> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -60,22 +61,22 @@ class _SettingsViewState extends State<SettingsView> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Theme.of(context).highlightColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
                           child: Icon(
                             Icons.brightness_6,
-                            color: Colors.grey[200],
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       const Text(
                         'Theme Mode',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 17,
+                          fontFamily: 'Serif',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -83,22 +84,37 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                   DropdownButton<ThemeMode>(
                     underline: Container(),
-                    dropdownColor: Colors.grey[800],
+                    dropdownColor: Theme.of(context).cardColor,
                     value: widget.controller.themeMode,
                     onChanged: widget.controller.updateThemeMode,
                     enableFeedback: true,
                     items: const [
                       DropdownMenuItem(
                         value: ThemeMode.system,
-                        child: Text('System Theme'),
+                        child: Text(
+                          'System Theme',
+                          style: TextStyle(
+                            fontFamily: 'Serif',
+                          ),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
-                        child: Text('Light Theme'),
+                        child: Text(
+                          'Light Theme',
+                          style: TextStyle(
+                            fontFamily: 'Serif',
+                          ),
+                        ),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,
-                        child: Text('Dark Theme'),
+                        child: Text(
+                          'Dark Theme',
+                          style: TextStyle(
+                            fontFamily: 'Serif',
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -109,7 +125,7 @@ class _SettingsViewState extends State<SettingsView> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -119,14 +135,13 @@ class _SettingsViewState extends State<SettingsView> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Theme.of(context).highlightColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
                           child: Icon(
                             Icons.emoji_events,
-                            color: Colors.grey[200],
                           ),
                         ),
                       ),
@@ -134,17 +149,22 @@ class _SettingsViewState extends State<SettingsView> {
                       const Text(
                         'Completed Tasks',
                         style: TextStyle(
+                          fontFamily: 'Serif',
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  Text(
-                    completedTaskCount.toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Text(
+                      completedTaskCount.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Serif',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -156,7 +176,7 @@ class _SettingsViewState extends State<SettingsView> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
@@ -169,29 +189,29 @@ class _SettingsViewState extends State<SettingsView> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[600],
+                            color: Theme.of(context).highlightColor,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4.0),
                             child: Icon(
                               Icons.coffee,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ),
                         const SizedBox(width: 8),
                         const Row(
                           children: [
-                            const Text(
-                              'Support me, buy me a coffee',
+                            Text(
+                              'Buy me a coffee',
                               style: TextStyle(
+                                fontFamily: 'Serif',
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(width: 4),
-                            Icon(Icons.recommend, color: Colors.grey),
+                            Icon(Icons.recommend),
                           ],
                         ),
                       ],
@@ -199,14 +219,15 @@ class _SettingsViewState extends State<SettingsView> {
                     const SizedBox(height: 8),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).highlightColor,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(12.0),
                         child: Text(
                           'If you like this app, consider supporting me by buying me a coffee. Your support will help me continue to improve this app and create more useful apps in the future.',
                           style: TextStyle(
+                            fontFamily: 'Serif',
                             fontSize: 15,
                           ),
                         ),
@@ -220,7 +241,7 @@ class _SettingsViewState extends State<SettingsView> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
@@ -233,14 +254,13 @@ class _SettingsViewState extends State<SettingsView> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[600],
+                            color: Theme.of(context).highlightColor,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4.0),
                             child: Icon(
                               Icons.screen_share_outlined,
-                              color: Colors.grey[200],
                             ),
                           ),
                         ),
@@ -250,6 +270,7 @@ class _SettingsViewState extends State<SettingsView> {
                             Text(
                               'Stay connected, follow me ',
                               style: TextStyle(
+                                fontFamily: 'Serif',
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -261,55 +282,25 @@ class _SettingsViewState extends State<SettingsView> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[700],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'lib/assets/globe.svg',
-                                color: Colors.white,
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
+                          SquareLinkButton(
+                            url: 'https://arnaudcs.github.io', 
+                            assetLink: 'lib/assets/globe.svg', 
+                            iconColor: Colors.white
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[700],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'lib/assets/github.svg',
-                                color: Colors.white,
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
+                          SquareLinkButton(
+                            url: 'https://github.com/ArnaudCs', 
+                            assetLink: 'lib/assets/github.svg', 
+                            iconColor: Colors.white
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[700],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'lib/assets/linkedin.svg',
-                                color: Colors.white,
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
+                          SquareLinkButton(
+                            url: 'https://www.linkedin.com/in/arnaudcs/', 
+                            assetLink: 'lib/assets/linkedin.svg', 
+                            iconColor: Colors.white
                           )
                         ],
                       )
@@ -324,7 +315,7 @@ class _SettingsViewState extends State<SettingsView> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -334,14 +325,13 @@ class _SettingsViewState extends State<SettingsView> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[600],
+                          color: Theme.of(context).highlightColor,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(4.0),
                           child: Icon(
                             Icons.mail_outline_rounded,
-                            color: Colors.grey[200],
                           ),
                         ),
                       ),
@@ -349,6 +339,7 @@ class _SettingsViewState extends State<SettingsView> {
                       const Text(
                         'A problem or suggestion?',
                         style: TextStyle(
+                          fontFamily: 'Serif',
                           fontSize: 15,
                         ),
                       ),
@@ -356,27 +347,11 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (Platform.isAndroid) {
-                        final intent = AndroidIntent(
-                          action: 'android.intent.action.MAIN',
-                          category: 'android.intent.category.APP_EMAIL',
-                        );
-                        intent.launch().catchError((e) {
-                          print('Erreur lors de l\'ouverture de l\'email : $e');
-                        });
-                      } else if (Platform.isIOS) {
-                        final Uri emailLaunchUri = Uri(
-                          scheme: 'mailto',
-                          path: '',
-                        );
-                        launchUrl(emailLaunchUri).catchError((e) {
-                          print('Erreur lors de l\'ouverture de l\'email : $e');
-                        });
-                      }
+                      launchUrl(Uri.parse('mailto:arnaud.cossu@gmail.com?subject=Minimalist%20App%20Feedback'));
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).highlightColor,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Padding(
@@ -384,6 +359,7 @@ class _SettingsViewState extends State<SettingsView> {
                         child: Text(
                           'Contact Us',
                           style: TextStyle(
+                            fontFamily: 'Serif',
                             fontSize: 15,
                             fontWeight: FontWeight.w300,
                           )
@@ -395,6 +371,21 @@ class _SettingsViewState extends State<SettingsView> {
               ),
             ),
             const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'Minimalist v1.0.0',
+                style: TextStyle(
+                  fontFamily: 'Serif',
+                  color: Colors.grey[600],
+                  fontSize: 12,
+                ),
+              ),
+            )
           ],
         ),
       ),

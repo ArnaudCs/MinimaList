@@ -45,7 +45,7 @@ class TaskService {
       }
     }
 
-    await saveTasks(tasks);
+    await removeTask(id);
     await _incrementCompletedTaskCount();
   }
 
