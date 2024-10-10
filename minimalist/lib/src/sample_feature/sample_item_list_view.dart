@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:minimalist/services/task_service.dart';
 import 'package:minimalist/src/sample_feature/sample_item.dart';
 import 'package:minimalist/src/sample_feature/task_creation_modal.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../settings/settings_view.dart';
 
@@ -51,7 +53,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
             Text(
               'Minima',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 30,
                 color: Colors.grey[200],
                 fontWeight: FontWeight.w900
               ),
@@ -60,7 +62,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
             Text(
               'List',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 30,
                 color: Colors.grey[200],
                 fontWeight: FontWeight.w500
               ),
@@ -69,7 +71,9 @@ class _SampleItemListViewState extends State<SampleItemListView> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(
+              Icons.settings_outlined
+            ),
             onPressed: () {
               Navigator.restorablePushNamed(context, SettingsView.routeName);
             },
@@ -79,8 +83,12 @@ class _SampleItemListViewState extends State<SampleItemListView> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: items.isEmpty
-            ? const Center(
-                child: Text('No items'),
+            ? Center(
+                child: SvgPicture.asset(
+                  'lib/assets/noTask.svg',
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  color: Colors.grey.withOpacity(0.2),
+                ),
               )
             : ListView.builder(
                 restorationId: 'sampleItemListView',
@@ -99,6 +107,24 @@ class _SampleItemListViewState extends State<SampleItemListView> {
                         const SnackBar(content: Text('Task completed, good job 👍'))
                       );
                     },
+                    background: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    secondaryBackground: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red[300],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
                     key: Key(item.id.toString()),
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
@@ -111,20 +137,20 @@ class _SampleItemListViewState extends State<SampleItemListView> {
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.task, color: Colors.white,),
+                                  const Icon(Icons.task, color: Colors.white,),
                                   const SizedBox(width: 8),
                                   Text(
                                     item.taskName,
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Roboto',
-                                      fontSize: 16,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 ],

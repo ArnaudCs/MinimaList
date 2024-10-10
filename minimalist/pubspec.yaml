@@ -16,6 +16,9 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.3.2
   dots_indicator: ^3.0.0
+  flutter_svg: ^2.0.10+1
+  android_intent_plus: ^5.1.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -31,4 +34,5 @@ flutter:
 
   assets:
     # Add assets from the images directory to the application.
-    - assets/images/
+    - assets/
+    - lib/assets/

@@ -47,7 +47,7 @@ class _TaskCreationModalState extends State<TaskCreationModal> {
       title: const Text('Create New Task'),
       content: TextField(
         controller: _taskNameController,
-        maxLength: 40,
+        maxLength: 30,
         maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'Task Name',
