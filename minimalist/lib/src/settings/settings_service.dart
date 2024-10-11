@@ -8,7 +8,7 @@ class SettingsService {
 
     final themeString = prefs.getString('theme_mode');
     
-    if (themeString != null && themeString == 'dark') {
+    if (themeString == 'dark') {
       return ThemeMode.dark;
     } else if (themeString == 'light') {
       return ThemeMode.light;

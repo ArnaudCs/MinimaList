@@ -6,7 +6,7 @@ import 'src/settings/settings_service.dart';
 
 void main() async {
 
-  WidgetsFlutterBinding.ensureInitialized(); // Initialize the binding
+  WidgetsFlutterBinding.ensureInitialized();
   
   final settingsController = SettingsController(SettingsService());
 
