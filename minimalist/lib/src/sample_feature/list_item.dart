@@ -32,26 +32,23 @@ class _ListItemState extends State<ListItem> {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.expand_circle_down_outlined,
+              Icon(
+                Icons.expand_circle_down_outlined,
+                color: Theme.of(context).appBarTheme.titleTextStyle?.color,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  widget.taskName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Serif',
+                    fontSize: 18,
                     color: Theme.of(context).appBarTheme.titleTextStyle?.color,
                   ),
-                  const SizedBox(width: 4),
-                  Text(
-                    widget.taskName,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'Serif',
-                      fontSize: 20,
-                      color: Theme.of(context).appBarTheme.titleTextStyle?.color,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
