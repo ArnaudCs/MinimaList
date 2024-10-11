@@ -5,6 +5,8 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized(); // Initialize the binding
   
   final settingsController = SettingsController(SettingsService());
 
